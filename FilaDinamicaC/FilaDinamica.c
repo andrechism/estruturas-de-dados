@@ -89,6 +89,7 @@ int remover_fila_produtos(FilaProduto* fila){
 	}else{
 		fila->primeiro = no->proximo;
 	}
+	fila->tamanho--;
 	free(no);
 	return 1;
 }
