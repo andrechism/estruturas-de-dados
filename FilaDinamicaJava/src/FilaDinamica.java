@@ -1,8 +1,8 @@
 
 public class FilaDinamica <T> {
 
-	private Elemento primeiro;
-	private Elemento ultimo;
+	private No primeiro;
+	private No ultimo;
 	private int tamanho;
 	
 	public boolean isVazia() {
@@ -14,7 +14,7 @@ public class FilaDinamica <T> {
 	}
 	
 	public void inserir(T t) {
-		Elemento no = new Elemento();
+		No no = new No();
 		no.t = t;
 		no.proximo = null;
 		if(isVazia()){
@@ -22,6 +22,7 @@ public class FilaDinamica <T> {
 			ultimo = no;
 		}else{
 			ultimo.proximo = no;
+			ultimo = no;
 		}
 		tamanho++;
 	}
@@ -47,8 +48,8 @@ public class FilaDinamica <T> {
 		return primeiro.t;
 	}
 	
-	private class Elemento {
-		Elemento proximo;
+	private class No {
+		No proximo;
 		T t;
 	}
 	
