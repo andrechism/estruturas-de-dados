@@ -1,15 +1,19 @@
-
 public class ListaDuplamenteEncadeada <T> {
 	
 	private No primeiro = null;
-	private int tamanho = 0;
 	
 	public int getTamanho() {
+		int tamanho = 0;
+		No aux = primeiro;
+		while(aux != null) {
+			tamanho++;
+			aux = aux.proximo;
+		}
 		return tamanho;
 	}
 	
 	public boolean isVazia() {
-		return tamanho == 0;
+		return getTamanho() == 0;
 	}
 	
 	public void inserir(T t) {
@@ -27,7 +31,6 @@ public class ListaDuplamenteEncadeada <T> {
 			aux.proximo = no;
 			no.anterior = aux;
 		}
-		tamanho++;
 	}
 	
 	public boolean remover(T t) {
@@ -49,7 +52,6 @@ public class ListaDuplamenteEncadeada <T> {
 		if(aux.proximo != null) {
 			aux.proximo.anterior = aux.anterior;
 		}
-		tamanho--;
 		return true;
 	}
 	
