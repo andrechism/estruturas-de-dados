@@ -1,76 +1,90 @@
 
 public class ListaCircular <T> {
-	
-	private Elemento inicio = null;
-	private Elemento fim = null;
-	private int tamanho = 0;
-	
-	public boolean isVazia() {
-		return tamanho == 0;
-	}
+
+	private No primeiro = null;
 	
 	public int getTamanho() {
+		if(primeiro == null) {
+			return 0;
+		}
+		int tamanho = 1;
+		No aux = primeiro;
+		while(aux.proximo != primeiro) {
+			tamanho++;
+			aux = aux.proximo;
+		}
 		return tamanho;
 	}
 	
-	public void inserir(T t) {
-		Elemento no = new Elemento();
-		no.t = t;
-		if(isVazia()){
-			inicio = no;
-			fim = no;
-			no.proximo = no;
-		}else{
-			fim.proximo = no;
-			fim = no;
-			no.proximo = inicio;
-		}
-		tamanho++;
+	public boolean isVazia() {
+		return primeiro == null;
 	}
 	
-	public T consultar(int index) {
-		if(index < 0 || index >= tamanho){
-			return null;
+	public void inserir(T t) {
+		No no = new No();
+		no.elemento = t;
+		if(primeiro == null) {
+			no.proximo = no;
+			primeiro = no;
+		}else {
+			No aux = primeiro;
+			while(aux.proximo != primeiro) {
+				aux = aux.proximo;
+			}
+			aux.proximo = no;
+			no.proximo = primeiro;
 		}
-		Elemento no = inicio;
-		int i = 0;
-		while(i < index){
-			no = no.proximo;
-			i++;
-		}
-		return no.t;
 	}
 	
 	public boolean remover(T t) {
-		if(isVazia()){
+		if(primeiro == null) {
 			return false;
 		}
-		Elemento no = inicio, noAnterior = fim;
-		while(no != fim && !no.t.equals(t)){
-			noAnterior = no;
-			no = no.proximo;
-		}
-		if(!no.t.equals(t)){
-			return false;
-		}
-		if(no == inicio && no == fim){
-			inicio = null;
-			fim = null;
-		}else{
-			if(no == inicio){
-				inicio = no.proximo;
-			}else if(no == fim){
-				fim = noAnterior;
+		No aux = primeiro;
+		if(aux.elemento == t) {
+			if(aux.proximo == primeiro) {
+				primeiro = null;
+			}else {
+				No ultimo = primeiro;
+				while(ultimo.proximo != primeiro) {
+					ultimo = ultimo.proximo;
+				}
+				ultimo.proximo = primeiro.proximo;
+				primeiro = primeiro.proximo;
 			}
-			noAnterior.proximo = no.proximo;
 		}
-		tamanho--;
+		No anterior = aux;
+		aux = aux.proximo;
+		while(aux != primeiro && aux.elemento != t) {
+			anterior = aux;
+			aux = aux.proximo;
+		}
+		if(aux == primeiro) {
+			return false;
+		}
+		anterior.proximo = aux.proximo;
 		return true;
 	}
 	
-	private class Elemento {
-		Elemento proximo;
-		T t;
+	public T get(int posicao) {
+		if(posicao < 0 || isVazia()) {
+			return null;
+		}
+		No aux = primeiro;
+		int i = 0;
+		while(aux.proximo != primeiro && posicao < i) {
+			aux = aux.proximo;
+			i++;
+		}
+		if(i != posicao) {
+			return null;
+		}
+		return aux.elemento;
+	}
+	
+	private class No {
+		T elemento;
+		No proximo;
 	}
 
 }
