@@ -1,16 +1,17 @@
-public class ListaProdutoDinamica implements ILista {
+
+public class ListaDuplamentoEncadeada implements ILista {
 	
 	private No primeiro = null;
 
 	@Override
 	public int getQuantidadeProdutos() {
-		int quantidadeProdutos = 0;
+		int tamanho = 0;
 		No aux = primeiro;
 		while(aux != null) {
-			quantidadeProdutos++;
+			tamanho++;
 			aux = aux.proximo;
 		}
-		return quantidadeProdutos;
+		return tamanho;
 	}
 
 	@Override
@@ -33,6 +34,7 @@ public class ListaProdutoDinamica implements ILista {
 		No no = new No();
 		no.produto = produto;
 		no.proximo = null;
+		no.anterior = null;
 		if(isVazia()) {
 			primeiro = no;
 		}else {
@@ -41,41 +43,45 @@ public class ListaProdutoDinamica implements ILista {
 				aux = aux.proximo;
 			}
 			aux.proximo = no;
+			no.anterior = aux;
 		}
 		return true;
 	}
 
 	@Override
 	public boolean remover(int codigoProduto) {
+		if(isVazia()) {
+			return false;
+		}
 		No aux = primeiro;
-		No auxAnterior = null;
-		while(aux != null && aux.produto.getCodigo() != codigoProduto) {
-			auxAnterior = aux;
+		while(aux != null 
+				&& aux.produto.getCodigo() != codigoProduto) {
 			aux = aux.proximo;
 		}
 		if(aux == null) {
 			return false;
 		}
-		// Pequena alteração nessa linha em relação a aula.
-		// Na condicional troquei o getQuantidadeProdutos() == 1 por aux == primeiro
-		if(aux == primeiro) {
+		if(aux.anterior == null) {
 			primeiro = aux.proximo;
-		}else {			
-			auxAnterior.proximo = aux.proximo;
+		}else {
+			aux.anterior.proximo = aux.proximo;
+		}
+		if(aux.proximo != null) {
+			aux.proximo.anterior = aux.anterior;
 		}
 		return true;
 	}
 
 	@Override
 	public Produto get(int i) {
-		if(i < 0 || i >= getQuantidadeProdutos()) {
+		if(isVazia() && i < 0) {
 			return null;
 		}
 		No aux = primeiro;
-		int indice = 0;
-		while(aux != null && indice < i ) {
+		int posicaoAtual = 0;
+		while(aux != null && posicaoAtual < i) {
 			aux = aux.proximo;
-			indice++;
+			posicaoAtual++;
 		}
 		if(aux == null) {
 			return null;
@@ -86,6 +92,7 @@ public class ListaProdutoDinamica implements ILista {
 	private class No {
 		Produto produto;
 		No proximo;
+		No anterior;
 	}
 
 	@Override

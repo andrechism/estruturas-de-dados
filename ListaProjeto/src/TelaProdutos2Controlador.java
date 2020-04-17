@@ -3,13 +3,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-public class TelaProdutosControlador {
+public class TelaProdutos2Controlador {
 	
-	private TelaProdutos telaProdutos;
+	private TelaProdutos2 telaProdutos;
 	private int codigoProduto = 1;
 	private ILista listaProdutos = new ListaProdutoEstatica(10);
 	
-	public TelaProdutosControlador(TelaProdutos tela) {
+	public TelaProdutos2Controlador(TelaProdutos2 tela) {
 		this.telaProdutos = tela;
 		
 		this.telaProdutos.getBtCadastrar().addActionListener(new ActionListener() {
@@ -50,6 +50,35 @@ public class TelaProdutosControlador {
 						listaProdutos.remover(produto.getCodigo());
 						telaProdutos.atualizarTabela(listaProdutos);
 					}
+				}
+			}
+		});
+		this.telaProdutos.getBtConsultaCodigo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String codigoString = telaProdutos.getTfConsultaCodigo().getText();
+				try {
+					int codigo = Integer.parseInt(codigoString);
+					Produto produto = listaProdutos.getCodigo(codigo);
+					if(produto == null) {
+						JOptionPane.showMessageDialog(null, "Produto não encontrado.");
+					}else{
+						JOptionPane.showMessageDialog(null, produto);
+					}
+				}catch(NumberFormatException err) {
+					telaProdutos.exibirAlerta("Código inválido");
+				}
+			}
+		});
+		this.telaProdutos.getBtConsultaDescricao().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String descricao = telaProdutos.getTfConsultaDescricao().getText();
+				Produto produto = listaProdutos.get(descricao);
+				if(produto == null) {
+					JOptionPane.showMessageDialog(null, "Produto não encontrado.");
+				}else{
+					JOptionPane.showMessageDialog(null, produto);
 				}
 			}
 		});

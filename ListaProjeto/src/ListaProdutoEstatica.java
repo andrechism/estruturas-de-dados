@@ -61,4 +61,14 @@ public class ListaProdutoEstatica implements ILista {
 		return dados[i];
 	}
 
+	@Override
+	public Produto get(String descricaoProduto) {
+		return null;
+	}
+
+	@Override
+	public Produto getCodigo(int codigo) {
+		return null;
+	}
+
 }

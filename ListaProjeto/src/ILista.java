@@ -8,5 +8,7 @@ public interface ILista {
 	public boolean adicionar(Produto produto);
 	public boolean remover(int codigoProduto);
 	public Produto get(int i);
+	public Produto get(String descricaoProduto);
+	public Produto getCodigo(int codigo);
 
 }
