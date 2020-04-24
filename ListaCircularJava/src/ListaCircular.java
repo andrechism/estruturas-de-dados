@@ -52,6 +52,7 @@ public class ListaCircular <T> {
 				ultimo.proximo = primeiro.proximo;
 				primeiro = primeiro.proximo;
 			}
+			return true;
 		}
 		No anterior = aux;
 		aux = aux.proximo;

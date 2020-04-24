@@ -7,7 +7,7 @@ public class TelaProdutosControlador {
 	
 	private TelaProdutos telaProdutos;
 	private int codigoProduto = 1;
-	private ILista listaProdutos = new ListaProdutoEstatica(10);
+	private ILista listaProdutos = new ListaProdutoCircular();
 	
 	public TelaProdutosControlador(TelaProdutos tela) {
 		this.telaProdutos = tela;
