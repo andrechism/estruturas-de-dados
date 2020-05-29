@@ -1,7 +1,7 @@
 
 public class ArvoreBinaria {
-	
-	private No raiz = null;
+
+	private No raiz;
 	
 	public boolean isVazia() {
 		return raiz == null;
@@ -20,10 +20,7 @@ public class ArvoreBinaria {
 		}
 		int alturaEsquerda = getAltura(no.esquerda);
 		int alturaDireita = getAltura(no.direita);
-		if(alturaEsquerda > alturaDireita) {
-			return alturaEsquerda + 1;
-		}
-		return alturaDireita + 1;
+		return alturaEsquerda > alturaDireita ? alturaEsquerda + 1 : alturaDireita + 1;
 	}
 	
 	public int getQuantidadeElementos() {
@@ -47,7 +44,7 @@ public class ArvoreBinaria {
 		no.dado = dado;
 		no.direita = null;
 		no.esquerda = null;
-		if(isVazia()) {
+		if(raiz == null) {
 			raiz = no;
 			return true;
 		}
@@ -72,6 +69,71 @@ public class ArvoreBinaria {
 		return true;
 	}
 	
+	public boolean remover(int dado) {
+		if(isVazia()) {
+			return false;
+		}
+		No atual = raiz;
+		No anterior = null;
+		while(atual != null) {
+			if(dado == atual.dado) {
+				if(atual == raiz) {
+					raiz = removeAtual(atual);
+				}else {
+					if(anterior.direita == atual) {
+						anterior.direita = removeAtual(atual);
+					}else {
+						anterior.esquerda = removeAtual(atual);
+					}
+				}
+				return true;
+			}
+			anterior = atual;
+			if(dado > atual.dado) {
+				atual = atual.direita;
+			}else {
+				atual = atual.esquerda;
+			}
+		}
+		return false;
+	}
+	
+	private No removeAtual(No atual) {
+		if(atual.esquerda == null) {
+			return atual.direita;
+		}
+		No no1 = atual;
+		No no2 = atual.esquerda;
+		while(no2.direita != null) {
+			no1 = no2;
+			no2 = no2.direita;
+		}
+		if(no1 != atual) {
+			no1.direita = no2.esquerda;
+			no2.esquerda = atual.esquerda;
+		}
+		no2.direita = atual.direita;
+		return no2;
+	}
+	
+	public boolean consultar(int dado) {
+		if(isVazia()) {
+			return false;
+		}
+		No atual = raiz;
+		while(atual != null) {
+			if(dado == atual.dado) {
+				return true;
+			}
+			if(dado > atual.dado) {
+				atual = atual.direita;
+			}else {
+				atual = atual.esquerda;
+			}
+		}
+		return false;
+	}
+	
 	public void imprimir() {
 		if(isVazia()) {
 			System.out.println("Vazia");
@@ -92,5 +154,5 @@ public class ArvoreBinaria {
 		No esquerda;
 		No direita;
 	}
-
+	
 }
